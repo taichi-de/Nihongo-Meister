@@ -1,8 +1,12 @@
-import Image from 'next/image'
+"use client";
+
+import BrowserBlocker from "@/components/BrowserBlocker";
+import WordCard from "@/components/WordCard";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between bg-slate-200 p-24">
+    <main className="h-screen bg-blue-950">
+      <WordCard />
     </main>
-  )
+  );
 }
