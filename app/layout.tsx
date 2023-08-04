@@ -1,10 +1,9 @@
 import Provider from "./Provider";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import BrowserBlocker from "@/components/BrowserBlocker";
-
-const inter = Inter({ subsets: ["latin"] });
+import Navbar from "@/components/Navbar";
+import Topbar from "@/components/Topbar";
 
 export const metadata: Metadata = {
   title: "Nihongo Meister",
@@ -17,11 +16,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="de">
       <Provider>
-        <body className={inter.className}>
-          <BrowserBlocker />
-          <div className="mt-30">{children}</div>
+        <body className="bg-gray-700">
+          {/* <BrowserBlocker /> */}
+          <Topbar />
+          <div>{children}</div>
+          <Navbar />
         </body>
       </Provider>
     </html>
