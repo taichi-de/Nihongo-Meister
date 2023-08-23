@@ -3,7 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import BrowserBlocker from "@/components/BrowserBlocker";
 import Navbar from "@/components/Navbar";
-import Topbar from "@/components/Topbar";
+import Header from "@/components/Header";
 
 export const metadata: Metadata = {
   title: "Nihongo Meister",
@@ -18,11 +18,13 @@ export default function RootLayout({
   return (
     <html lang="de">
       <Provider>
-        <body className="bg-gray-700">
-          {/* <BrowserBlocker /> */}
-          <Topbar />
-          <div>{children}</div>
-          <Navbar />
+        <body>
+          <main className="w-[375px] h-full mx-auto bg-gradient-to-b from-main via-secondary to-main text-sub">
+            {/* <BrowserBlocker /> */}
+            <Header />
+            <div>{children}</div>
+            <Navbar />
+          </main>
         </body>
       </Provider>
     </html>

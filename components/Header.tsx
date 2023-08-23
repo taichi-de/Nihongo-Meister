@@ -4,11 +4,24 @@ import { Text } from "@mantine/core";
 import { LuSettings } from "react-icons/lu";
 import { BsFire } from "react-icons/bs";
 
-export default function Topbar() {
+const today = new Date();
+type Option = {
+  weekday: "long" | "short" | "narrow";
+  month: "numeric" | "2-digit" | "long" | "short" | "narrow";
+  day: "numeric" | "2-digit";
+};
+const options: Option = {
+  weekday: "short",
+  month: "2-digit",
+  day: "2-digit",
+};
+const dateString = today.toLocaleDateString("de-DE", options);
+
+export default function Header() {
   return (
-    <nav className="flex align-middle justify-between bg-main py-2 px-[10%]">
+    <nav className="flex align-middle justify-between py-2 px-[10%]">
       <Text className="text-gray/80 text-lg font-bold">
-        <span className="text-sm">Fr.04.08</span>
+        <span className="text-sm">{dateString}</span>
         <br />
         Heute
       </Text>

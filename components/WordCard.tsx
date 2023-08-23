@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Container,
   Stack,
@@ -19,10 +21,17 @@ export default function WordCard() {
   const [opened, { toggle }] = useDisclosure(false);
   const [save, setSave] = useState<boolean>(false);
   const text = ["Watashi", "ha", "Nihongo", "wo", "hanase", "masu"];
-  const translation = ["Ich", "kann", "Japanisch", "sprechen"];
+  const translation = [
+    "Ich",
+    "(Nominativ)",
+    "Japanisch",
+    "Akkusativ",
+    "sprechen",
+    "kann",
+  ];
 
   return (
-    <Container className="relative pt-5 pb-10 px-[10%] h-screen text-center text-sub bg-gradient-to-b from-main via-secondary to-main">
+    <Container className="relative pt-5 pb-1 px-[10%] h-screen text-center">
       <Button className="absolute top-5 right-5 rounded-full p-2">
         {/* TODO: add onClick() */}
         <IoMdClose className="w-6 h-6 text-gray" />
@@ -41,7 +50,7 @@ export default function WordCard() {
           alt="image"
           width="200"
           height="0"
-          className="bg-gray-200 mx-auto"
+          className="bg-gray-200 mx-auto w-[200px]"
         />
         <h1 className="flex align-middle text-5xl my-2 mx-auto font-bold">
           Nihongo
