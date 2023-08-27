@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int              @id @default(autoincrement())
+  username String           @unique
+  email    String           @unique
+  password String
+  level    ProficiencyLevel
+  vocab    UserVocabulary[]
+}
+
+enum PartOfSpeech {
+  NOMEN
+  VERB
+  ADJEKTIV
+  ADVERB
+  PRONOMEN
+  PRAEPOSITION
+  KONJUNKTION
+  INTERJEKTION
+  PARTIKEL
+}
+
+model Vocabulary {
+  id            Int              @id @default(autoincrement())
+  word          String
+  partOfSpeech  PartOfSpeech
+  translation   String
+  inJapanese    String
+  sentence      String
+  sentenceTranslation String
+  level         ProficiencyLevel
+  users         UserVocabulary[]
+}
+
+model UserVocabulary {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  vocabId     Int
+  lastStudied DateTime  @default(now())
+  frequency   Int       @default(1)
+  user        User      @relation(fields: [userId], references: [id])
+  vocab       Vocabulary @relation(fields: [vocabId], references: [id])
+}
+
+model Quiz {
+  id       Int            @id @default(autoincrement())
+  name     String
+  level    ProficiencyLevel
+  questions QuizQuestions[]
+}
+
+model QuizQuestions {
+  id            Int    @id @default(autoincrement())
+  quizId        Int
+  questionText  String
+  answerOptions String // Consider using a JSON type here if your DB supports it.
+  correctAnswer String
+  quiz          Quiz   @relation(fields: [quizId], references: [id])
+}
+
+model ConversationExample {
+  id      Int              @id @default(autoincrement())
+  title   String
+  content String
+  level   ProficiencyLevel
+}
+
+model DictionaryEntry {
+  id              Int    @id @default(autoincrement())
+  word            String
+  pronunciation   String
+  meaning         String
+  exampleSentence String
+}
+
+enum ProficiencyLevel {
+  Onigiri
+  BentoBox
+  Sakura
+  Katana
+  Kiku
+}
