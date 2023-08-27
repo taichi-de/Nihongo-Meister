@@ -1,7 +1,7 @@
 export default function account() {
   return (
-    <div className="flex-col align-middle justify-center text-center p-[10%] text-white/80">
-      account page
+    <div className="mt-10 text-center text-white/80">
+      Du hast noch kein Wort gespeichert.
     </div>
   );
 }

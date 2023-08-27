@@ -17,25 +17,26 @@ model User {
 }
 
 enum PartOfSpeech {
-  NOUN
+  NOMEN
   VERB
-  ADJECTIVE
+  ADJEKTIV
   ADVERB
-  PRONOUN
-  PREPOSITION
-  CONJUNCTION
-  INTERJECTION
-  PARTICLE
-  // Add any other relevant parts of speech for Japanese or your app's specific needs
+  PRONOMEN
+  PRAEPOSITION
+  KONJUNKTION
+  INTERJEKTION
+  PARTIKEL
 }
 
 model Vocabulary {
   id            Int              @id @default(autoincrement())
   word          String
-  translation   String
-  category      String
-  level         ProficiencyLevel
   partOfSpeech  PartOfSpeech
+  translation   String
+  inJapanese    String
+  sentence      String
+  sentenceTranslation String
+  level         ProficiencyLevel
   users         UserVocabulary[]
 }
 
@@ -81,11 +82,6 @@ model DictionaryEntry {
 }
 
 enum ProficiencyLevel {
-  // N5
-  // N4
-  // N3
-  // N2
-  // N1
   Onigiri
   BentoBox
   Sakura
