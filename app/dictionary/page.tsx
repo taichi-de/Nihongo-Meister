@@ -2,7 +2,7 @@
 "use client";
 
 import { useDisclosure } from "@mantine/hooks";
-import { Paper, Text, Popover, Collapse, Tooltip } from "@mantine/core";
+import { Paper, Text, Popover, Collapse } from "@mantine/core";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { Database } from "../../types/database.types";

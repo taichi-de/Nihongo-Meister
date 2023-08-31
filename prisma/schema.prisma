@@ -60,8 +60,8 @@ model Quiz {
 model QuizQuestions {
   id            Int    @id @default(autoincrement())
   quizId        Int
-  questionText  String
-  answerOptions String // Consider using a JSON type here if your DB supports it.
+  questionWord   String
+  answerOptions  String[]
   correctAnswer String
   quiz          Quiz   @relation(fields: [quizId], references: [id])
 }
