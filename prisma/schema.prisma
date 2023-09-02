@@ -31,6 +31,7 @@ enum PartOfSpeech {
 model Vocabulary {
   id            Int              @id @default(autoincrement())
   word          String
+  // pronunciation   String
   partOfSpeech  PartOfSpeech
   translation   String
   inJapanese    String
@@ -51,34 +52,42 @@ model UserVocabulary {
 }
 
 model Quiz {
-  id       Int            @id @default(autoincrement())
-  name     String
-  level    ProficiencyLevel
-  questions QuizQuestions[]
+  id        Int        @id @default(autoincrement())
+  // title    String    // necessary?
+  level     ProficiencyLevel
+  questions Question[]
 }
 
-model QuizQuestions {
-  id            Int    @id @default(autoincrement())
+model Question {
+  id            Int      @id @default(autoincrement())
   quizId        Int
-  questionText  String
-  answerOptions String // Consider using a JSON type here if your DB supports it.
+  questionType  QuestionType
+  question      String
+  answerOptions String[]
   correctAnswer String
-  quiz          Quiz   @relation(fields: [quizId], references: [id])
+  quiz          Quiz     @relation(fields: [quizId], references: [id])
 }
+
+enum QuestionType {
+  Wort
+  Gespraech
+}
+
+// model QuizAttempt {
+//   id     Int    @id @default(autoincrement())
+//   userId Int
+//   quizId Int
+//   score  Int
+//   user   User   @relation(fields: [userId], references: [id])
+//   quiz   Quiz   @relation(fields: [quizId], references: [id])
+// }
 
 model ConversationExample {
   id      Int              @id @default(autoincrement())
   title   String
-  content String
+  sentences String[]
+  translations String[]
   level   ProficiencyLevel
-}
-
-model DictionaryEntry {
-  id              Int    @id @default(autoincrement())
-  word            String
-  pronunciation   String
-  meaning         String
-  exampleSentence String
 }
 
 enum ProficiencyLevel {
@@ -87,4 +96,18 @@ enum ProficiencyLevel {
   Sakura
   Katana
   Kiku
+}
+
+enum Categories {
+  Begruessung
+  Vorstellung
+  Einkaufen
+  Reisen
+  Freizeit
+  Beziehungen
+  Arbeit
+  Gesundheit
+  Wetter
+  Kultur
+  Sonstiges
 }

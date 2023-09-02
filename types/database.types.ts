@@ -1,64 +1,81 @@
-export type User = {
+import {
+  PrismaClient,
+  PartOfSpeech,
+  ProficiencyLevel,
+  QuestionType,
+  Categories,
+} from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+export interface User {
   id: number;
+  username: string;
   email: string;
   password: string;
-  level: "Onigiri" | "BentoBox" | "Sakura" | "Katana" | "Kiku";
-  savedWords: Vocabulary[];
-};
+  level: ProficiencyLevel;
+  vocab: UserVocabulary[];
+}
 
-export type UserVocabulary = {
-  userId: number;
-  vocabularyId: number;
-};
-
-export type Vocabulary = {
+export interface Vocabulary {
   id: number;
   word: string;
-  meaning: string;
-  category: string;
-  partOfSpeech:
-    | "noun"
-    | "verb"
-    | "adjective"
-    | "adverb"
-    | "pronoun"
-    | "preposition"
-    | "conjunction"
-    | "interjection";
-};
+  // pronunciation: string;
+  partOfSpeech: PartOfSpeech;
+  translation: string;
+  inJapanese: string;
+  sentence: string;
+  sentenceTranslation: string;
+  level: ProficiencyLevel;
+  users: UserVocabulary[];
+}
 
-export type Quiz = {
+export interface UserVocabulary {
   id: number;
-  questions: Question[];
-  level: "Onigiri" | "BentoBox" | "Sakura" | "Katana" | "Kiku";
-};
-
-export type Question = {
-  id: number;
-  quizId: number;
-  prompt: string;
-  choices: string[];
-  answer: string;
-};
-
-export type QuizAttempt = {
   userId: number;
-  quizId: number;
-  score: number;
-};
+  vocabId: number;
+  lastStudied: Date;
+  frequency: number;
+  user: User;
+  vocab: Vocabulary;
+}
 
-export type Conversation = {
+export interface Quiz {
   id: number;
-  sentences: string[];
-  level: "Onigiri" | "BentoBox" | "Sakura" | "Katana" | "Kiku";
-};
+  // name: string;
+  categories: Categories;
+  level: ProficiencyLevel;
+  questions: Question[];
+}
+
+export interface Question {
+  id: number;
+  quizId: number;
+  questionType: QuestionType;
+  question: string;
+  answerOptions: string[];
+  correctAnswer: string;
+  quiz: Quiz;
+}
+
+export interface ConversationExample {
+  id: number;
+  title: string;
+  // pronunciation: string;
+  sentences: String[];
+  translations: String[];
+  level: ProficiencyLevel;
+}
 
 export interface Database {
   users: User;
   userVocabulary: UserVocabulary;
   vocabulary: Vocabulary;
-  quizzes: Quiz;
-  questions: Question;
-  quizAttempts: QuizAttempt;
-  conversations: Conversation;
+  quiz: Quiz;
+  question: Question;
+  conversationExample: ConversationExample;
 }
+
+export { PartOfSpeech, ProficiencyLevel, QuestionType, Categories };
+
+export default prisma;
