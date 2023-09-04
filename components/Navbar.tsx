@@ -51,7 +51,10 @@ export default function Navbar() {
             key={i}
             className={`flex flex-col items-center ${isActive && "text-third"}`}
           >
-            <item.icon className="w-7 h-7 mx-auto" />
+            <item.icon
+              speechify-initial-font-size="28px"
+              className="w-7 h-7 mx-auto"
+            />
             <p className="text-xs">{item.label}</p>
           </Link>
         );

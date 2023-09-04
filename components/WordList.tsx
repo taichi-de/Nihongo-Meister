@@ -3,11 +3,11 @@
 import { useState, useEffect } from "react";
 import { Text, Popover, Collapse } from "@mantine/core";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { Vocabulary } from "../../types/database.types";
+import { Vocabulary } from "@/../../types/database.types";
 
-function Dictionary() {
+export default function WordList(searchTerm: string) {
   const [vocabs, setVocabs] = useState<Vocabulary[]>([]);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  //   const [searchTerm, setSearchTerm] = useState<string>("");
   const [opened, setOpened] = useState<boolean[]>([]);
 
   async function fetchVocabs() {
@@ -27,13 +27,13 @@ function Dictionary() {
     fetchData();
   }, []);
 
-  const filteredVocabs = vocabs.filter((vocab) =>
-    vocab.word.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  //   const filteredVocabs = vocabs.filter((vocab) =>
+  //     vocab.word.toLowerCase().includes(searchTerm.toLowerCase())
+  //   );
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-  };
+  //   const handleSubmit = async (e: React.FormEvent) => {
+  //     e.preventDefault();
+  //   };
 
   const toggleCollapse = (index: number) => {
     setOpened((prev) => {
@@ -45,7 +45,7 @@ function Dictionary() {
 
   return (
     <div className="px-[5%]">
-      <form
+      {/* <form
         onSubmit={handleSubmit}
         className="flex items-center justify-between px-4"
       >
@@ -59,7 +59,7 @@ function Dictionary() {
         <button className="font-semibold m-0 py-2 px-4 shadow-xl bg-secondary/80 rounded-lg hover:opacity-70">
           Suchen
         </button>
-      </form>
+      </form> */}
       <div className="py-8 px-4">
         {filteredVocabs &&
           filteredVocabs.slice(0, 7).map((vocab: Vocabulary, index: number) => {
@@ -108,14 +108,3 @@ function Dictionary() {
     </div>
   );
 }
-
-export default Dictionary;
-
-// id,quizId,questionType,question,answerOptions,correctAnswer
-// 4,2,Wort,Biru,"[""Haus"", ""Baum"", ""Auto"", ""Gebäude""]",Gebäude
-// 5,2,Wort,Takai,"[""hoch"", ""niedrig"", ""groß"", ""klein""]",hoch
-// 6,2,Wort,Taberu,"[""essen"", ""trinken"", ""schlafen"", ""laufen""]",essen
-// 7,3,Wort,Inu,"[""Hund"", ""Katze"", ""Maus"", ""Vogel""]",Hund
-// 8,3,Wort,Tsuki,"[""Mond"", ""Sonne"", ""Stern"", ""Wolke""]",Mond
-// 9,3,Wort,Ame,"[""Regen"", ""Schnee"", ""Wind"", ""Sonne""]",Regen
-// 10,3,Wort,Natsu,"[""Sommer"", ""Herbst"", ""Winter"", ""Frühling""]",Sommer

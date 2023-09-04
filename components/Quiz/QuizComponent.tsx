@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import WordQuiz from "@/components/Quiz/WordQuiz";
@@ -28,9 +29,9 @@ export default function QuizComponent({ quizId }: Props) {
   const theme = useMantineTheme();
 
   async function fetchQuestions() {
-    const res = await fetch(
-      `http://localhost:3000/api/question?quizId=${quizId}`
-    );
+    const res = await fetch("http://localhost:3000/api/question/", {
+      cache: "no-store",
+    });
     const data = await res.json();
     return data.questions.filter(
       (question: Question) => question.quizId === quizId

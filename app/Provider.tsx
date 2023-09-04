@@ -9,7 +9,7 @@ const Provider = ({ children }: { children: ReactNode }) => {
       withGlobalStyles
       withNormalizeCSS
       theme={{
-        colorScheme: "light",
+        colorScheme: "dark",
       }}
     >
       {children}

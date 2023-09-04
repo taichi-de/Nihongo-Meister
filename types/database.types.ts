@@ -1,9 +1,9 @@
-import { Notification } from "./database.types";
 import {
   PrismaClient,
   PartOfSpeech,
   ProficiencyLevel,
   QuestionType,
+  // FIXME:
   Categories,
 } from "@prisma/client";
 
@@ -15,7 +15,7 @@ export interface User {
   email: string;
   password: string;
   level: ProficiencyLevel;
-  vocab: UserVocabulary[];
+  vocab: Bookmarks[];
 }
 
 export interface Vocabulary {
@@ -28,10 +28,10 @@ export interface Vocabulary {
   sentence: string;
   sentenceTranslation: string;
   level: ProficiencyLevel;
-  users: UserVocabulary[];
+  users: Bookmarks[];
 }
 
-export interface UserVocabulary {
+export interface Bookmarks {
   id: number;
   userId: number;
   vocabId: number;
@@ -77,7 +77,7 @@ export interface Notification {
 
 export interface Database {
   users: User;
-  userVocabulary: UserVocabulary;
+  bookmarks: Bookmarks;
   vocabulary: Vocabulary;
   quiz: Quiz;
   question: Question;
@@ -85,6 +85,6 @@ export interface Database {
   notification: Notification;
 }
 
-export { PartOfSpeech, ProficiencyLevel, QuestionType, Categories };
+export { Categories, PartOfSpeech, ProficiencyLevel, QuestionType };
 
 export default prisma;

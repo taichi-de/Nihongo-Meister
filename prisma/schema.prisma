@@ -13,7 +13,7 @@ model User {
   email    String           @unique
   password String
   level    ProficiencyLevel
-  vocab    UserVocabulary[]
+  vocab    Bookmarks[]
 }
 
 enum PartOfSpeech {
@@ -38,10 +38,10 @@ model Vocabulary {
   sentence      String
   sentenceTranslation String
   level         ProficiencyLevel
-  users         UserVocabulary[]
+  users         Bookmarks[]
 }
 
-model UserVocabulary {
+model Bookmarks {
   id          Int       @id @default(autoincrement())
   userId      Int
   vocabId     Int
@@ -99,16 +99,11 @@ enum ProficiencyLevel {
 }
 
 enum Categories {
-  Begruessung
   Vorstellung
-  Einkaufen
   Reisen
   Freizeit
   Beziehungen
   Arbeit
-  Gesundheit
-  Wetter
-  Kultur
   Sonstiges
 }
 

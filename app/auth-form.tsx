@@ -9,7 +9,7 @@ export default function AuthForm() {
 
   return (
     <Auth
-      supabaseClient={supabase}
+      supabaseClient={supabase as any}
       view="magic_link"
       appearance={{ theme: ThemeSupa }}
       theme="dark"
