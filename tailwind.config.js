@@ -14,6 +14,9 @@ module.exports = {
       secondary: "#1F4690",
       third: "#E8AA42",
       sub: "#FFE5B4",
+      orange: "#F29727",
+      red: "#F94C10",
+      green: "#00A86B",
     },
     extend: {
       backgroundImage: {

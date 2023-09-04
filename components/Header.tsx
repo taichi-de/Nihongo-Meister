@@ -19,15 +19,15 @@ const dateString = today.toLocaleDateString("de-DE", options);
 
 export default function Header() {
   return (
-    <nav className="flex align-middle justify-between py-2 px-[10%]">
-      <Text className="text-gray/80 text-lg font-bold">
-        <span className="text-sm">{dateString}</span>
+    <nav className="flex items-center justify-between py-4 px-[10%]">
+      <Text className="text-gray/80 text-sm font-bold">
+        <span className="">{dateString}</span>
         <br />
         Heute
       </Text>
       <div className="flex">
         <div className="my-auto mr-4 text-center text-gray/80">
-          <BsFire className="text-red-500 text-2xl" />
+          <BsFire className="text-orange text-2xl" />
           <Text className="text-xs">14</Text>
         </div>
         <LuSettings className="text-gray/80 text-2xl my-auto" />

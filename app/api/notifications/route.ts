@@ -14,10 +14,13 @@ export async function main() {
 export const GET = async (req: Request, res: NextResponse) => {
   try {
     await main();
-    const quizzes = await prisma.quiz.findMany({
-      orderBy: { id: "asc" },
+    const notifications = await prisma.notification.findMany({
+      orderBy: { id: "desc" },
     });
-    return NextResponse.json({ message: "Success", quizzes }, { status: 200 });
+    return NextResponse.json(
+      { message: "Success", notifications },
+      { status: 200 }
+    );
   } catch (err) {
     return NextResponse.json({ message: "Error", err }, { status: 500 });
   } finally {

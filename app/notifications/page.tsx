@@ -1,29 +1,49 @@
 "use client";
 
-import { IoMdClose } from "react-icons/io";
+import { useState, useEffect } from "react";
+import { HiOutlineLightBulb } from "react-icons/hi";
+import { Notification } from "../../types/database.types";
+import dayjs from "dayjs";
 
-export default function notifications() {
+export default function Notifications() {
+  const [news, setNews] = useState<Notification[]>([]);
+
+  async function fetchNews() {
+    const res = await fetch("http://localhost:3000/api/notifications", {
+      cache: "no-store",
+    });
+    const data = await res.json();
+    return data.notifications;
+  }
+
+  useEffect(() => {
+    async function fetchData() {
+      const result = await fetchNews();
+      setNews(result);
+    }
+    fetchData();
+  }, []);
+
   return (
     <div className="px-[5%]">
-      <div className="bg-white/50 text-main mb-3 p-4 rounded-md">
-        <div className="flex justify-between font-semibold items-center text-main">
-          <p>Gute Nachricht!</p>
-          <IoMdClose className="w-5 h-5 text-main/50" />
+      {news.map((notification) => (
+        <div
+          className="bg-white/50 text-main mb-3 p-4 rounded-md"
+          key={notification.id}
+        >
+          <div className="flex text-main">
+            <HiOutlineLightBulb className="w-5 h-5 mr-1 text-main/50" />
+            <p>{notification.title}</p>
+          </div>
+          <p className="text-sm my-1 ml-5">{notification.content}</p>
+          <time
+            dateTime={dayjs(notification.publishedAt).toISOString()}
+            className="ml-5 text-xs text-main/70"
+          >
+            {dayjs(notification.publishedAt).format("DD.MM.YYYY")}
+          </time>
         </div>
-        <p className="text-sm my-1">
-          Juhu! 🎉 Wir haben erste 3 Nutzer erreicht!
-        </p>
-        <p className="text-xs text-main/50">26.08.2023</p>
-      </div>
-
-      <div className="bg-white/50 text-main p-4 rounded-md">
-        <div className="flex justify-between font-semibold items-center text-main">
-          <p>Alles gute zu deinem ersten Login!</p>
-          <IoMdClose className="w-5 h-5 text-main/50" />
-        </div>
-        <p className="text-sm my-1">Schön dass du da bist!</p>
-        <p className="text-xs text-main/50">25.08.2023</p>
-      </div>
+      ))}
     </div>
   );
 }

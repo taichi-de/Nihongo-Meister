@@ -49,9 +49,7 @@ export default function Navbar() {
           <Link
             href={item.link}
             key={i}
-            className={`flex flex-col items-center ${
-              isActive && "text-third bg-activeBg"
-            }`}
+            className={`flex flex-col items-center ${isActive && "text-third"}`}
           >
             <item.icon className="w-7 h-7 mx-auto" />
             <p className="text-xs">{item.label}</p>

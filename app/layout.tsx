@@ -20,7 +20,7 @@ export default function RootLayout({
         <body>
           <main className="max-w-[375px] h-screen mx-auto bg-gradient-to-b from-main via-secondary to-main text-sub">
             <Header />
-            <div className="my-4 px-[5%]">{children}</div>
+            <div className="h-[80%] pb-5 px-[5%]">{children}</div>
             <Navbar />
           </main>
         </body>

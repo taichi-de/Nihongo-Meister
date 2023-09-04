@@ -1,82 +1,92 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
-import { useDisclosure } from "@mantine/hooks";
-import { Paper, Text, Popover, Collapse } from "@mantine/core";
+import { useState, useEffect } from "react";
+import { Text, Popover, Collapse } from "@mantine/core";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { useEffect, useState } from "react";
-import { Database } from "../../types/database.types";
+import { Vocabulary } from "../../types/database.types";
 
-async function fetchVocabs() {
-  const res = await fetch("http://localhost:3000/api/vocabulary", {
-    cache: "no-store",
-  });
-  const data = await res.json();
-  console.log("Fetched Data:", data);
-  return data.vocabs;
-}
+function Dictionary() {
+  const [vocabs, setVocabs] = useState<Vocabulary[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [opened, setOpened] = useState<boolean[]>([]);
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-};
-
-const dictionary = async () => {
-  const [vocabs, setVocabs] = useState<Database[]>([]);
-  console.log(vocabs);
-  const [opened, { toggle }] = useDisclosure(false);
+  async function fetchVocabs() {
+    const res = await fetch("http://localhost:3000/api/vocabulary", {
+      cache: "no-store",
+    });
+    const data = await res.json();
+    return data.vocabs;
+  }
 
   useEffect(() => {
-    const fetchData = async () => {
+    async function fetchData() {
       const result = await fetchVocabs();
       setVocabs(result);
-    };
+      setOpened(new Array(result.length).fill(false));
+    }
     fetchData();
   }, []);
+
+  const filteredVocabs = vocabs.filter((vocab) =>
+    vocab.word.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+  };
+
+  const toggleCollapse = (index: number) => {
+    setOpened((prev) => {
+      const newState = [...prev];
+      newState[index] = !newState[index];
+      return newState;
+    });
+  };
 
   return (
     <div className="px-[5%]">
       <form
         onSubmit={handleSubmit}
-        className="flex items-center justify-between"
+        className="flex items-center justify-between px-4"
       >
         <input
           placeholder="Z. B. Neko"
           type="text"
-          className="bg-white/80 text-gray rounded-md w-auto p-2"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="bg-white/80 text-main rounded-md w-auto mr-1 p-2"
         />
         <button className="font-semibold m-0 py-2 px-4 shadow-xl bg-secondary/80 rounded-lg hover:opacity-70">
           Suchen
         </button>
       </form>
-      {vocabs &&
-        vocabs.map((vocab: any) => {
-          const sentenceWords = vocab.sentence.split(" ");
-          const sentenceTranslationWords = vocab.sentenceTranslation.split(" ");
-          console.log(sentenceWords);
-          console.log(sentenceTranslationWords);
-          return (
-            <div
-              key={vocab.id}
-              className="flex flex-col text-main bg-white/50 mt-4 rounded-md"
-            >
-              <div className="flex items-center justify-between w-full overflow-auto py-2 px-4">
-                <p className="font-semibold">{vocab.word}</p>
-                <p>({vocab.partOfSpeech.slice(0, 3)}.)</p>
-                <p>{vocab.level}</p>
-                <p>{vocab.inJapanese}</p>
-                {opened ? (
-                  <IoIosArrowUp onClick={toggle} />
-                ) : (
-                  <IoIosArrowDown onClick={toggle} />
-                )}
-              </div>
-              <div>
-                {/* {opened && ( */}
-                <Collapse in={opened} transitionDuration={700}>
-                  <Paper className="py-2 px-4 w-full text-main" unstyled>
-                    <Text>
-                      Z.B.)
-                      {sentenceWords.map(({ sentenceWord, i }: any) => (
+      <div className="py-8 px-4">
+        {filteredVocabs &&
+          filteredVocabs.slice(0, 7).map((vocab: any, index: number) => {
+            const sentenceWords = vocab.sentence?.split(", ");
+            const sentenceTranslationWords =
+              vocab.sentenceTranslation?.split(", ");
+            return (
+              <div
+                key={vocab.id}
+                className="flex flex-col text-main bg-white/50 mb-4  py-2 px-4 rounded-md"
+              >
+                <div className="flex items-center justify-between w-full overflow-auto">
+                  <p className="font-semibold">{vocab.word}</p>
+                  <p>({vocab.partOfSpeech.slice(0, 3)}.)</p>
+                  <p>{vocab.translation}</p>
+                  <p>{vocab.inJapanese}</p>
+                  {opened[index] ? (
+                    <IoIosArrowUp onClick={() => toggleCollapse(index)} />
+                  ) : (
+                    <IoIosArrowDown onClick={() => toggleCollapse(index)} />
+                  )}
+                </div>
+                {opened[index] && (
+                  <Collapse in={true} transitionDuration={700}>
+                    <div className="flex flex-wrap mt-2">
+                      <Text>Z.B.) </Text>
+                      {sentenceWords?.map((sentenceWord: string, i: number) => (
                         <Popover position="top" withArrow shadow="md" key={i}>
                           <Popover.Target>
                             <Text className="underline decoration-dashed px-1">
@@ -88,16 +98,24 @@ const dictionary = async () => {
                           </Popover.Dropdown>
                         </Popover>
                       ))}
-                    </Text>
-                  </Paper>
-                </Collapse>
-                {/* )} */}
+                    </div>
+                  </Collapse>
+                )}
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+      </div>
     </div>
   );
-};
+}
 
-export default dictionary;
+export default Dictionary;
+
+// id,quizId,questionType,question,answerOptions,correctAnswer
+// 4,2,Wort,Biru,"[""Haus"", ""Baum"", ""Auto"", ""Gebäude""]",Gebäude
+// 5,2,Wort,Takai,"[""hoch"", ""niedrig"", ""groß"", ""klein""]",hoch
+// 6,2,Wort,Taberu,"[""essen"", ""trinken"", ""schlafen"", ""laufen""]",essen
+// 7,3,Wort,Inu,"[""Hund"", ""Katze"", ""Maus"", ""Vogel""]",Hund
+// 8,3,Wort,Tsuki,"[""Mond"", ""Sonne"", ""Stern"", ""Wolke""]",Mond
+// 9,3,Wort,Ame,"[""Regen"", ""Schnee"", ""Wind"", ""Sonne""]",Regen
+// 10,3,Wort,Natsu,"[""Sommer"", ""Herbst"", ""Winter"", ""Frühling""]",Sommer
