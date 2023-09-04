@@ -15,7 +15,6 @@ function Dictionary() {
       cache: "no-store",
     });
     const data = await res.json();
-    // console.log("Fetched Data:", data);
     return data.vocabs;
   }
 
@@ -113,8 +112,6 @@ function Dictionary() {
 export default Dictionary;
 
 // id,quizId,questionType,question,answerOptions,correctAnswer
-// 2,1,Wort,Genki,"[""glücklich"", ""traurig"", ""müde"", ""wütend""]",glücklich
-// 3,1,Wort,Ringo,"[""Apfel"", ""Banane"", ""Orange"", ""Erdbeere""]",Apfel
 // 4,2,Wort,Biru,"[""Haus"", ""Baum"", ""Auto"", ""Gebäude""]",Gebäude
 // 5,2,Wort,Takai,"[""hoch"", ""niedrig"", ""groß"", ""klein""]",hoch
 // 6,2,Wort,Taberu,"[""essen"", ""trinken"", ""schlafen"", ""laufen""]",essen
