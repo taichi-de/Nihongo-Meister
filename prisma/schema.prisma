@@ -111,3 +111,10 @@ enum Categories {
   Kultur
   Sonstiges
 }
+
+model Notification {
+  id Int @id @default(autoincrement())
+  title String
+  content String
+  publishedAt DateTime @default(now())
+}

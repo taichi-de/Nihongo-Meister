@@ -1,3 +1,4 @@
+import { Notification } from "./database.types";
 import {
   PrismaClient,
   PartOfSpeech,
@@ -67,6 +68,13 @@ export interface ConversationExample {
   level: ProficiencyLevel;
 }
 
+export interface Notification {
+  id: number;
+  title: string;
+  content: string;
+  publishedAt: Date;
+}
+
 export interface Database {
   users: User;
   userVocabulary: UserVocabulary;
@@ -74,6 +82,7 @@ export interface Database {
   quiz: Quiz;
   question: Question;
   conversationExample: ConversationExample;
+  notification: Notification;
 }
 
 export { PartOfSpeech, ProficiencyLevel, QuestionType, Categories };
