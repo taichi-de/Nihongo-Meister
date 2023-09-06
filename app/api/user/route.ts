@@ -1,18 +1,33 @@
-// /* eslint-disable import/no-anonymous-default-export */
-// import { NextApiRequest, NextApiResponse } from "next";
-// import prisma from "../../../lib/prisma";
+import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
 
-// export default async (req: NextApiRequest, res: NextApiResponse) => {
-//   const { userId, newLevel } = req.body;
+const prisma = new PrismaClient();
 
-//   try {
-//     const updatedUser = await prisma.user.update({
-//       where: { id: userId },
-//       data: { level: newLevel },
-//     });
+export async function main() {
+  try {
+    await prisma.$connect();
+  } catch (err) {
+    return Error("DB connection failed");
+  }
+}
 
-//     return res.status(200).json(updatedUser);
-//   } catch (error) {
-//     return res.status(500).json({ error: "Failed to update user level" });
-//   }
-// };
+export const GET = async (req: Request, res: NextResponse) => {
+  try {
+    await main();
+    const { userId, newLevel } = req.body;
+
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: { level: newLevel },
+    });
+
+    return NextResponse.json(
+      { message: "Success", updatedUser },
+      { status: 200 }
+    );
+  } catch (err) {
+    return NextResponse.json({ message: "Error", err }, { status: 500 });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
